@@ -17,6 +17,7 @@ import 'package:meetion/util/screen_util.dart';
 import 'package:meetion/widget/bottom_sheet.dart';
 import 'package:meetion/widget/nft_detail_dialog.dart';
 import 'package:meetion/widget/nft_list_dialog.dart';
+import 'package:meetion/widget/profile_dialog.dart';
 
 import '../config/config.dart';
 import '../ethereum/chain_id.dart';
@@ -36,10 +37,16 @@ class Chat extends StatefulWidget {
 class _ChatState extends State<Chat> {
   final GlobalKey<DashChatState> _chatViewKey = GlobalKey<DashChatState>();
 
+  final Map<String, String> chatMessages = {
+    "hello": "world",
+    "request": "response",
+    "1": "2"
+  };
+
   final ChatUser user = ChatUser(
-    name: "Fayeed",
-    firstName: "Fayeed",
-    lastName: "Pawaskar",
+    name: "bob",
+    // firstName: "",
+    // lastName: "",
     uid: "12345678",
     avatar: "assets/images/my_avatar.png",
     // color: Colors.green,
@@ -47,7 +54,7 @@ class _ChatState extends State<Chat> {
   );
 
   final ChatUser otherUser = ChatUser(
-    name: "Mrfatty",
+    name: "alice",
     uid: "25649654",
     avatar: "assets/images/other_avatar.png",
   );
@@ -60,11 +67,50 @@ class _ChatState extends State<Chat> {
   @override
   void initState() {
     getNFTData();
+    prepareMessageList();
     super.initState();
+  }
+
+  void prepareMessageList() {
+        Map<dynamic, dynamic> firstMsg =  {
+          "id": "12312312312",
+          "text": "嘻嘻",
+          "createdAt": DateTime.now().millisecondsSinceEpoch,
+          "user": otherUser.toJson()
+        };
+
+        Map<dynamic, dynamic> secondMsg =  {
+          "id": "12312312312",
+          "text": "遇到你真是太幸运了，你真是一个阳光善良的boy~",
+          "createdAt": DateTime.now().millisecondsSinceEpoch,
+          "user": otherUser.toJson()
+        };
+
+        // Map<dynamic, dynamic> thirdMsg =  {
+        //   "id": "12312312312",
+        //   "text": "嘿嘿嘿",
+        //   "createdAt": DateTime.now().millisecondsSinceEpoch,
+        //   "user": user.toJson()
+        // };
+
+        // Map<dynamic, dynamic> forthMsg =  {
+        //   "id": "12312312312",
+        //   "text": "今天聊的非常开心，你也是一个甜蜜的小可爱",
+        //   "createdAt": DateTime.now().millisecondsSinceEpoch,
+        //   "user": user.toJson()
+        // };
+
+        // setState(() {
+          messages.add(ChatMessage.fromJson(firstMsg));
+          messages.add(ChatMessage.fromJson(secondMsg));
+          // messages.add(ChatMessage.fromJson(thirdMsg));
+          // messages.add(ChatMessage.fromJson(forthMsg));
+        // });
   }
 
   void getNFTData() async {
     nftList.clear();
+
     // final eth = Ethereum();
     // final count = await eth.getTotalSupply(contract: Config.erc721_contract);
     // for (var i = 0; i < count; i++) {
@@ -83,6 +129,7 @@ class _ChatState extends State<Chat> {
 
     //   final nftItem = NFTItem(
     //     url,
+    //     i,
     //     "Norangi Olekey",
     //     "#1966091",
     //     Decimal.parse("0.009")
@@ -90,10 +137,12 @@ class _ChatState extends State<Chat> {
     //   nftList.add(nftItem);
     // }
 
-    nftList.add(NFTItem("https://gateway.pinata.cloud/ipfs/QmR1e5RzZ5MBBpHQMGe2CKtXnaaXq3NA3J4Lwvcr5JTKdJ", 0, "Norangi Olekey", "#1966055", Decimal.parse("0.009")));
-    nftList.add(NFTItem("https://gateway.pinata.cloud/ipfs/QmeEdH8zwh1ivcHn4YxkF1WAb9KMMtUn5wCuCMw1NvYqP2", 1, "Norangi Olekey", "#1966091", Decimal.parse("0.32")));
-    nftList.add(NFTItem("https://gateway.pinata.cloud/ipfs/QmUAnVspFbxpAecYuBYu56otyjNeVkUKiyUyYHXALSYEEt", 2, "Norangi Olekey", "#1966092", Decimal.parse("0.012")));
-    nftList.add(NFTItem("https://gateway.pinata.cloud/ipfs/QmNPUp84WoCt69poP7SDy1BoBms2sxg4j7i6h2xxG71nDj", 3, "Norangi Olekey", "#1966093", Decimal.parse("0.01")));
+    nftList.add(NFTItem("https://gateway.pinata.cloud/ipfs/QmZvUNgU3VbGdxCru1NgGazrVSLuXdpbN9Ju957PmTck8T", 1, "Boom Shaka Laka", "#1966091", Decimal.parse("0.032")));
+    nftList.add(NFTItem("https://gateway.pinata.cloud/ipfs/QmR1e5RzZ5MBBpHQMGe2CKtXnaaXq3NA3J4Lwvcr5JTKdJ", 2, "Crypto Cat", "#1966055", Decimal.parse("0.009")));
+    nftList.add(NFTItem("https://gateway.pinata.cloud/ipfs/QmeEdH8zwh1ivcHn4YxkF1WAb9KMMtUn5wCuCMw1NvYqP2", 3, "Kitty", "#1966099", Decimal.parse("0.0101")));
+    nftList.add(NFTItem("https://gateway.pinata.cloud/ipfs/QmUAnVspFbxpAecYuBYu56otyjNeVkUKiyUyYHXALSYEEt", 4, "Norangi Olekey", "#1966092", Decimal.parse("0.012")));
+    nftList.add(NFTItem("https://gateway.pinata.cloud/ipfs/QmNPUp84WoCt69poP7SDy1BoBms2sxg4j7i6h2xxG71nDj", 0, "Norangi", "#1966093", Decimal.parse("0.01")));
+    
     // nftList.add(NFTItem("https://http.cat/303", 4, "Norangi Olekey", "#1966091", Decimal.parse("1")));
 
   }
@@ -130,7 +179,21 @@ class _ChatState extends State<Chat> {
 
     setState(() {
       messages.add(message);
-      // messages.add(ChatMessage.fromJson(msg));
+    });
+
+    Future.delayed(Duration(seconds: 1), (){
+      if (chatMessages[message.text] != null) {
+        Map<dynamic, dynamic> msg =  {
+          "id": "12312312312",
+          "text": chatMessages[message.text],
+          "createdAt": DateTime.now().millisecondsSinceEpoch,
+          "user": otherUser.toJson()
+        };
+
+        setState(() {
+          messages.add(ChatMessage.fromJson(msg));
+        });
+      }
     });
   }
 
@@ -165,6 +228,19 @@ class _ChatState extends State<Chat> {
     setState(() {
       messages.addAll(msgs);
     });
+
+    Future.delayed(Duration(seconds: 2), (){
+        Map<dynamic, dynamic> msg =  {
+          "id": "12312312312",
+          "text": "哇，好喜欢你的礼物啊",
+          "createdAt": DateTime.now().millisecondsSinceEpoch,
+          "user": otherUser.toJson()
+        };
+
+        setState(() {
+          messages.add(ChatMessage.fromJson(msg));
+        });
+    });
   }
 
   Widget buildGiftButton(func) {
@@ -194,11 +270,11 @@ class _ChatState extends State<Chat> {
       image = Stack(
         children: [
           Image.asset(url),
-          Positioned(
-            right: 20,
-            top: 30,
-            child: Text("Boom Shaka Laka", style: TextStyle(color: Colors.white, fontSize: 16))
-          ),
+          // Positioned(
+          //   right: 20,
+          //   top: 30,
+          //   child: Text("Boom Shaka Laka", style: TextStyle(color: Colors.white, fontSize: 16))
+          // ),
         ],
       );
     }
@@ -278,6 +354,11 @@ class _ChatState extends State<Chat> {
         scrollToBottom: false,
         onPressAvatar: (ChatUser user) {
           print("OnPressAvatar: ${user.name}");
+          // showDialog(context: context, builder: (context) {
+          //   return ProfileDialog();
+          // });
+
+          Navigator.push(context, MaterialPageRoute(builder: (context)=> ProfileDialog()));
         },
         onLongPressAvatar: (ChatUser user) {
           print("OnLongPressAvatar: ${user.name}");
@@ -346,7 +427,18 @@ class _ChatState extends State<Chat> {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text("徐橘子", style: TextStyle(fontSize: 18, color: AppTheme.nameColor)),
+        title: Text("Alice", style: TextStyle(fontSize: 18, color: AppTheme.nameColor)),
+        elevation: 0,
+        leading: FlatButton(
+          onPressed: () {
+            Navigator.pop(context);
+          },
+          child: Image.asset(
+            "assets/images/back_arrow.png",
+            width: ScreenUtil.size22,
+            height: ScreenUtil.size22,
+          )
+        )
       ),
       body: buildChatList()
     );

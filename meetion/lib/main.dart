@@ -4,9 +4,11 @@ import 'dart:io';
 import 'package:dash_chat/dash_chat.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:meetion/config/theme.dart';
 import 'package:meetion/page/chat.dart';
+import 'package:meetion/page/home.dart';
 import 'package:meetion/util/screen_util.dart';
 
 import 'page/mine.dart';
@@ -22,12 +24,16 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'meetion',
       theme: ThemeData(
-        primarySwatch: Colors.blue,
+        // primarySwatch: Colors.blue,
+        primaryColor: Colors.white,
         scaffoldBackgroundColor: AppTheme.background,
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
       // home: MyHomePage(title: 'Flutter Demo Home Page'),
-      home: Chat(),
+      home: FlutterEasyLoading(
+        // child: MyHomePage(title: 'Flutter Demo Home Page')
+        child:  Home(null),
+      )
     );
   }
 }
@@ -42,10 +48,16 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+  final CupertinoTabController _controller = CupertinoTabController();
+  void navi(int index) {
+    _controller.index = index;
+  }
 
   @override
   Widget build(BuildContext context) {
+    _controller.index = 1;
     return CupertinoTabScaffold(
+      controller: _controller,
       tabBar: CupertinoTabBar(
         activeColor: Colors.blue,
         inactiveColor: Colors.blueAccent,
@@ -53,18 +65,15 @@ class _MyHomePageState extends State<MyHomePage> {
           BottomNavigationBarItem(
               title: Text("推荐"),
               icon: Icon(Icons.add_to_queue),
-              activeIcon: Icon(Icons.add_to_queue)
-          ),
+              activeIcon: Icon(Icons.add_to_queue)),
           BottomNavigationBarItem(
               title: Text("消息"),
               icon: Icon(Icons.ac_unit),
-              activeIcon: Icon(Icons.ac_unit)
-          ),
+              activeIcon: Icon(Icons.ac_unit)),
           BottomNavigationBarItem(
               title: Text("我的"),
               icon: Icon(Icons.accessibility),
-              activeIcon: Icon(Icons.accessibility)
-          )
+              activeIcon: Icon(Icons.accessibility))
         ],
       ),
       tabBuilder: (context, index) {
@@ -78,7 +87,7 @@ class _MyHomePageState extends State<MyHomePage> {
             break;
           case 1:
             return CupertinoTabView(
-              builder: (context) => Container(),
+              builder: (context) => Home(this.navi),
               defaultTitle: '',
             );
             break;

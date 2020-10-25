@@ -48,7 +48,11 @@ class _WebviewState extends State<Webview> {
         bottom: progress >= 1.0 ? PreferredSize(child: Container()) :
         PreferredSize(
             child: SizedBox(
-             child: LinearProgressIndicator(value: progress, valueColor: AlwaysStoppedAnimation<Color>(AppTheme.primary)),
+             child: LinearProgressIndicator(
+                value: progress,
+                valueColor: AlwaysStoppedAnimation<Color>(AppTheme.primary),
+                backgroundColor: Colors.white
+              ),
               height: 3,
             )
         ),

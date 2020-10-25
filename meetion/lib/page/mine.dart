@@ -1,30 +1,27 @@
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class Mine extends StatefulWidget {
-
   @override
   State<StatefulWidget> createState() => _MineState();
-
 }
 
 class _MineState extends State<Mine> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // appBar: AppBar(
-      //   title: Text("Mine"),
-      //
-      // ),
+      appBar: AppBar(
+        backgroundColor: Colors.white,
+        title: Text(
+          "Mine",
+          style: Theme.of(context).textTheme.headline6,
+        ),
+      ),
       body: SafeArea(
         child: Container(
           padding: EdgeInsets.only(left: 10, right: 10),
           child: Column(
-            children: [
-              builderHeader(),
-              buildAvatarName()
-            ],
+            children: [buildAvatarName()],
           ),
         ),
       ),
@@ -34,9 +31,7 @@ class _MineState extends State<Mine> {
   Widget builderHeader() {
     return Row(
       mainAxisAlignment: MainAxisAlignment.end,
-      children: [
-        Icon(Icons.settings)
-      ],
+      children: [Icon(Icons.settings)],
     );
   }
 
@@ -44,13 +39,38 @@ class _MineState extends State<Mine> {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        CircleAvatar(
-          child: Text("avatar"),
-        ),
-        Text("Title"),
-        Icon(Icons.chevron_right)
+        Column(children: [
+          Container(
+              padding: EdgeInsets.only(left: 0, top: 16),
+              child: Row(children: [
+                Container(
+                  padding: EdgeInsets.all(16),
+                  child: CircleAvatar(
+                    radius: 24,
+                    child: Image.asset("assets/images/my_avatar.png"),
+                  ),
+                ),
+                Container(
+                  child: Text("Hi, CYi",
+                      style: TextStyle(
+                          color: Colors.black,
+                          fontSize: 24,
+                          fontWeight: FontWeight.w500)),
+                )
+              ]))
+        ]),
+        Container(padding: EdgeInsets.all(16), child: Icon(Icons.chevron_right))
       ],
     );
   }
 
+  Widget buildProfile() {
+    return Row(
+      children: [
+        Card(
+          child: Text(""),
+        )
+      ],
+    );
+  }
 }

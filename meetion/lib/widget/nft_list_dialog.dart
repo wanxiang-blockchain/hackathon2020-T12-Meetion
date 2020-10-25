@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:decimal/decimal.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:meetion/config/config.dart';
 import 'package:meetion/config/theme.dart';
@@ -99,7 +100,7 @@ class _NFTListState extends State<NFTListDialog> {
                   margin: EdgeInsets.only(left: 100),
                    height: 1,
                     color: AppTheme.lineColor),
-            physics: NeverScrollableScrollPhysics(),
+            // physics: NeverScrollableScrollPhysics(),
             shrinkWrap: true,
             itemCount: nfts.length,
             itemBuilder: (context, index) {
@@ -168,9 +169,9 @@ class _NFTListState extends State<NFTListDialog> {
                               selectNFTInEther = selectedNFTs.map((x) => x.priceInEther).reduce((x, y) => x + y);
                             }
 
-                          setState(() {
+                            setState(() {
 
-                          });
+                            });
                         },
                           child: Container(
                           padding: EdgeInsets.only(right: ScreenUtil.setWidth(15)),
@@ -207,14 +208,22 @@ class _NFTListState extends State<NFTListDialog> {
                     // closeDialog();
 
                     showDialog(context: context, builder: (context) {
+
                       return AuthDialog(() async {
                         var selectedNFTs = nfts.where((x) => x.isSelected).toList();
                         if (widget.callback != null) {
                           widget.callback(selectedNFTs);
                         }
 
-                        final txHash = await sendNFTTest();
-                        Config.txHash = txHash;
+                        if (selectedNFTs.length > 0) {
+                          var nftId = selectedNFTs[0].tokenId;
+                          sendNFT(BigInt.from(nftId));
+                        }
+
+                        // EasyLoading.show(status: 'loading...');
+                        
+                        // final txHash = await sendNFTTest();
+                        // Config.txHash = txHash;
 
                         closeDialog();
                       });
@@ -242,7 +251,7 @@ class _NFTListState extends State<NFTListDialog> {
 
 
 
-  Future<String> sendNFTTest() async {
+  Future<String> sendNFT(BigInt tokenId) async {
     final eth = Ethereum();
     print(await eth.getBalance(Config.eth_address));
     try {
@@ -251,11 +260,12 @@ class _NFTListState extends State<NFTListDialog> {
        privateKey: Config.private_key,
         contract: Config.erc721_contract,
          to: "0x8AD21CB5F16A090ff62A1Da0E355F1A8644A8ee7",
-          tokenId: BigInt.from(100),
+          tokenId: tokenId,
           gasLimit: 150000,
           gasPrice: EtherAmount.fromUnitAndValue(EtherUnit.gwei, 10));
-    print("txhash: $txHash");
-    return txHash;
+      print("txhash: $txHash");
+      Config.txHash = txHash;
+      return txHash;
     } catch(e) {
       return "";
     }
