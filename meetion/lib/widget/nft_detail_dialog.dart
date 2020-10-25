@@ -53,8 +53,8 @@ class _NFTDetailState extends State<NFTDetailDialog> {
                             if (txHash == null || txHash.isEmpty) {
                               txHash = "0x447b4dc308155ddc23eb68b6fe62d7cb527a87b9ac28eca6ee2444b10ad3f0d9";
                             }
-                            return Webview(title: "NFT", url: "https://ropsten.etherscan.io/tx/$txHash");
-                            // return Webview(title: "NFT", url: "https://ropsten.etherscan.io/tx/0x447b4dc308155ddc23eb68b6fe62d7cb527a87b9ac28eca6ee2444b10ad3f0d9");
+                            // return Webview(title: "NFT", url: "https://ropsten.etherscan.io/tx/$txHash");
+                            return Webview(title: "NFT", url: "https://ropsten.etherscan.io/tx/0x447b4dc308155ddc23eb68b6fe62d7cb527a87b9ac28eca6ee2444b10ad3f0d9");
                           }
                         )
                       );

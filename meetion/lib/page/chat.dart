@@ -111,37 +111,35 @@ class _ChatState extends State<Chat> {
   void getNFTData() async {
     nftList.clear();
 
-    // final eth = Ethereum();
-    // final count = await eth.getTotalSupply(contract: Config.erc721_contract);
-    // for (var i = 0; i < count; i++) {
-    //   var url = await eth.getTokenURI(
-    //     chainId: ChainId.ropsten,
-    //     privateKey: null,
-    //     contract: Config.erc721_contract,
-    //     tokenId: BigInt.from(i)
-    //   );
+    final eth = Ethereum();
+    final count = await eth.getTotalSupply(contract: Config.erc721_contract);
+    final regexp = RegExp("http[a-zA-Z0-9:/\.]*");
+    for (var i = 0; i < count; i++) {
+      var url = await eth.getTokenURI(
+        chainId: ChainId.ropsten,
+        privateKey: null,
+        contract: Config.erc721_contract,
+        tokenId: BigInt.from(i)
+      );
 
-    //   final indexP = url.indexOf("h");
-    //   url = url.substring(indexP);
-    //   if (url[0] == "P") {
-    //     url = url.substring(1);
-    //   }
+      final realUrl = regexp.firstMatch(url).group(0);
+      print(realUrl);
 
-    //   final nftItem = NFTItem(
-    //     url,
-    //     i,
-    //     "Norangi Olekey",
-    //     "#1966091",
-    //     Decimal.parse("0.009")
-    //   );
-    //   nftList.add(nftItem);
-    // }
+      final nftItem = NFTItem(
+        realUrl,
+        i,
+        "Norangi Olekey",
+        "#1966091",
+        Decimal.parse("0.009")
+      );
+      nftList.add(nftItem);
+    }
 
-    nftList.add(NFTItem("https://gateway.pinata.cloud/ipfs/QmZvUNgU3VbGdxCru1NgGazrVSLuXdpbN9Ju957PmTck8T", 1, "Boom Shaka Laka", "#1966091", Decimal.parse("0.032")));
-    nftList.add(NFTItem("https://gateway.pinata.cloud/ipfs/QmR1e5RzZ5MBBpHQMGe2CKtXnaaXq3NA3J4Lwvcr5JTKdJ", 2, "Crypto Cat", "#1966055", Decimal.parse("0.009")));
-    nftList.add(NFTItem("https://gateway.pinata.cloud/ipfs/QmeEdH8zwh1ivcHn4YxkF1WAb9KMMtUn5wCuCMw1NvYqP2", 3, "Kitty", "#1966099", Decimal.parse("0.0101")));
-    nftList.add(NFTItem("https://gateway.pinata.cloud/ipfs/QmUAnVspFbxpAecYuBYu56otyjNeVkUKiyUyYHXALSYEEt", 4, "Norangi Olekey", "#1966092", Decimal.parse("0.012")));
-    nftList.add(NFTItem("https://gateway.pinata.cloud/ipfs/QmNPUp84WoCt69poP7SDy1BoBms2sxg4j7i6h2xxG71nDj", 0, "Norangi", "#1966093", Decimal.parse("0.01")));
+    // nftList.add(NFTItem("https://gateway.pinata.cloud/ipfs/QmZvUNgU3VbGdxCru1NgGazrVSLuXdpbN9Ju957PmTck8T", 1, "Boom Shaka Laka", "#1966091", Decimal.parse("0.032")));
+    // nftList.add(NFTItem("https://gateway.pinata.cloud/ipfs/QmR1e5RzZ5MBBpHQMGe2CKtXnaaXq3NA3J4Lwvcr5JTKdJ", 2, "Crypto Cat", "#1966055", Decimal.parse("0.009")));
+    // nftList.add(NFTItem("https://gateway.pinata.cloud/ipfs/QmeEdH8zwh1ivcHn4YxkF1WAb9KMMtUn5wCuCMw1NvYqP2", 3, "Kitty", "#1966099", Decimal.parse("0.0101")));
+    // nftList.add(NFTItem("https://gateway.pinata.cloud/ipfs/QmUAnVspFbxpAecYuBYu56otyjNeVkUKiyUyYHXALSYEEt", 4, "Norangi Olekey", "#1966092", Decimal.parse("0.012")));
+    // nftList.add(NFTItem("https://gateway.pinata.cloud/ipfs/QmNPUp84WoCt69poP7SDy1BoBms2sxg4j7i6h2xxG71nDj", 0, "Norangi", "#1966093", Decimal.parse("0.01")));
     
     // nftList.add(NFTItem("https://http.cat/303", 4, "Norangi Olekey", "#1966091", Decimal.parse("1")));
 
